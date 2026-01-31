@@ -37,7 +37,7 @@ if domains:
             if seen_subdomains:
                 copy_text = "\n".join([s['subdomain'] for s in seen_subdomains])
                 st.download_button(
-                    label="🗐",
+                    label="C",
                     data=copy_text,
                     file_name=f"{selected_domain_name}_all_subdomains.txt",
                     mime="text/plain",
@@ -68,7 +68,7 @@ if domains:
             if verified_subs:
                 copy_text = "\n".join([s['subdomain'] for s in verified_subs])
                 st.download_button(
-                    label="🗐",
+                    label="C",
                     data=copy_text,
                     file_name=f"{selected_domain_name}_dns_verified.txt",
                     mime="text/plain",
@@ -98,7 +98,7 @@ if domains:
             if new_subdomains:
                 copy_text = "\n".join([s['subdomain'] for s in new_subdomains])
                 st.download_button(
-                    label="🗐",
+                    label="C",
                     data=copy_text,
                     file_name=f"{selected_domain_name}_new_subdomains.txt",
                     mime="text/plain",
@@ -119,7 +119,7 @@ if domains:
                 col_check, col_name = st.columns([1, 20])
                 
                 with col_check:
-                    if st.checkbox("", key=f"check_{sub['id']}", label_visibility="collapsed"):
+                    if st.checkbox("Mark as seen", key=f"check_{sub['id']}", label_visibility="collapsed"):
                         # Mark as seen
                         mark_subdomain_as_seen(sub['id'])
                         st.rerun()

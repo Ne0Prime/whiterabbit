@@ -2,6 +2,9 @@
 
 echo "Starting WhiteRabbit..."
 
+# Create data folder
+mkdir data
+
 # Start Streamlit in background
 streamlit run Dashboard.py > streamlit.log 2>&1 &
 STREAMLIT_PID=$!

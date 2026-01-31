@@ -4,6 +4,12 @@ import time
 from scanners import *
 import signal
 import sys
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 def should_scan(domain):
     """Check if domain should be scanned"""
@@ -17,7 +23,7 @@ def should_scan(domain):
 
 def signal_handler(sig, frame):
     """Handle graceful shutdown"""
-    print('\n[*] Shutting down gracefully...')
+    logging.info('\nShutting down gracefully...')
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -25,28 +31,28 @@ signal.signal(signal.SIGINT, signal_handler)
 while True:
     try:
         domains = get_all_domains()
-        print(f"[*] Checking {len(domains)} domains...")
+        logging.info(f"Checking {len(domains)} domains...")
         
         for domain in domains:
             if should_scan(domain):
                 try:
-                    print(f"[*] Scanning {domain['name']}...")
+                    logging.info(f"Scanning {domain['name']}...")
                     subdomains = scan_subdomains_osint(domain)
                     
                     if subdomains:
-                        print(f"[+] Found {len(subdomains)} subdomains")
+                        logging.info(f"Found {len(subdomains)} subdomains")
                         check(domain, subdomains)
                         update_last_scan(domain['id'])
                     else:
-                        print(f"[-] No subdomains found")
+                        logging.info(f"No subdomains found")
                         
                 except Exception as e:
-                    print(f"[!] Error scanning {domain['name']}: {e}")
+                    logging.error(f"Error scanning {domain['name']}: {e}")
                     continue
         
         time.sleep(60)
         
     except Exception as e:
-        print(f"[!] Critical error in main loop: {e}")
+        logging.error(f"Critical error in main loop: {e}")
         time.sleep(60)
         continue

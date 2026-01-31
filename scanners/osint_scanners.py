@@ -1,6 +1,11 @@
 import requests
 import json
+import logging
 
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 def scan_subdomains_osint(domain):
     """Execute passive subdomain enumeration via OSINT sources"""
@@ -10,7 +15,7 @@ def scan_subdomains_osint(domain):
     
     # crt.sh
     if "crt_sh" in use_scanners:
-        print(f"[*] Querying crt.sh for {domain['name']}")
+        logging.info(f"Querying crt.sh for {domain['name']}")
         try:
             url = f"https://crt.sh/?q=%.{domain['name']}&output=json"
             response = requests.get(url, timeout=40)
@@ -26,13 +31,13 @@ def scan_subdomains_osint(domain):
                         subdomains.add(subdomain)
                         
         except requests.exceptions.RequestException as e:
-            print(f"[!] crt.sh error: {e}")
+            logging.error(f"crt.sh error: {e}")
         except json.JSONDecodeError as e:
-            print(f"[!] crt.sh JSON error: {e}")
-    
+            logging.error(f"crt.sh JSON error: {e}")
+
     # HackerTarget
     if "hackertarget" in use_scanners:
-        print(f"[*] Querying HackerTarget for {domain['name']}")
+        logging.info(f"Querying HackerTarget for {domain['name']}")
         try:
             url = f"https://api.hackertarget.com/hostsearch/?q={domain['name']}"
             response = requests.get(url, timeout=20)
@@ -48,11 +53,11 @@ def scan_subdomains_osint(domain):
                             subdomains.add(subdomain)
                             
         except requests.exceptions.RequestException as e:
-            print(f"[!] HackerTarget error: {e}")
+            logging.error(f"HackerTarget error: {e}")
     
     # URLScan.io
     if "urlscan" in use_scanners:
-        print(f"[*] Querying URLScan.io for {domain['name']}")
+        logging.info(f"Querying URLScan.io for {domain['name']}")
         try:
             url = f"https://urlscan.io/api/v1/search/?q=domain:{domain['name']}"
             response = requests.get(url, timeout=20)
@@ -68,13 +73,13 @@ def scan_subdomains_osint(domain):
                     subdomains.add(subdomain)
                     
         except requests.exceptions.RequestException as e:
-            print(f"[!] URLScan.io error: {e}")
+            logging.error(f"URLScan.io error: {e}")
         except json.JSONDecodeError as e:
-            print(f"[!] URLScan.io JSON error: {e}")
+            logging.error(f"URLScan.io JSON error: {e}")
     
     # AnubisDB
     if "anubis" in use_scanners:
-        print(f"[*] Querying AnubisDB for {domain['name']}")
+        logging.info(f"Querying AnubisDB for {domain['name']}")
         try:
             url = f"https://jldc.me/anubis/subdomains/{domain['name']}"
             response = requests.get(url, timeout=20)
@@ -88,8 +93,8 @@ def scan_subdomains_osint(domain):
                         subdomains.add(subdomain)
                         
         except requests.exceptions.RequestException as e:
-            print(f"[!] AnubisDB error: {e}")
+            logging.error(f"AnubisDB error: {e}")
         except json.JSONDecodeError as e:
-            print(f"[!] AnubisDB JSON error: {e}")
+            logging.error(f"AnubisDB JSON error: {e}")
     
     return subdomains

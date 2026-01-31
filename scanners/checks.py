@@ -2,6 +2,12 @@ import dns.resolver
 from database import *
 import requests
 import urllib3
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 # Disable SSL warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -26,10 +32,10 @@ def dns_check(subdomain, use_cloudflare):
     except (dns.resolver.NXDOMAIN, dns.resolver.NoAnswer):
         return False
     except dns.resolver.Timeout:
-        print(f"  [!] DNS timeout for {subdomain}")
+        logging.error(f"DNS timeout for {subdomain}")
         return False
     except Exception as e:
-        print(f"  [!] DNS error for {subdomain}: {e}")
+        logging.error(f"DNS error for {subdomain}: {e}")
         return False
 
 def http_check(subdomain):
@@ -53,7 +59,7 @@ def http_check(subdomain):
             results['status_code'] = response.status_code
             results['page_size'] = len(response.content)
             
-            print(f"  ✓ HTTP {subdomain} - Status: {results['status_code']}, Size: {results['page_size']} bytes")
+            logging.info(f"HTTP {subdomain} - Status: {results['status_code']}, Size: {results['page_size']} bytes")
             
             if protocol == 'https':
                 break
@@ -63,7 +69,7 @@ def http_check(subdomain):
                 requests.exceptions.Timeout):
             continue
         except Exception as e:
-            print(f"  [!] HTTP error on {protocol}://{subdomain}: {e}")
+            logging.error(f"HTTP error on {protocol}://{subdomain}: {e}")
             continue
     
     return results
@@ -82,11 +88,11 @@ def check(domain, subdomains):
             # DNS Check (if enabled)
             if dns_enabled:
                 dns_provider = "Cloudflare" if use_cloudflare else "Google"
-                print(f"  [DNS:{dns_provider}] Checking {subdomain}...")
+                logging.info(f"DNS:{dns_provider} Checking {subdomain}...")
                 
                 if dns_check(subdomain, use_cloudflare):
                     mark_subdomain_as_dns_checked(subdomain_id)
-                    print(f"  ✓ DNS resolves")
+                    logging.info(f"DNS resolves")
                     
                     # HTTP Check (if enabled and DNS resolves)
                     if http_enabled:
@@ -99,7 +105,7 @@ def check(domain, subdomains):
                                 http_results['page_size']
                             )
                 else:
-                    print(f"  ✗ DNS does not resolve")
+                    logging.info(f"DNS does not resolve")
                 
                 # Toggle DNS provider
                 use_cloudflare = not use_cloudflare

@@ -7,12 +7,7 @@ if "db_initialized" not in st.session_state:
     st.session_state.db_initialized = True
 
 # Set Page Style
-st.set_page_config(
-    page_title="Dashboard",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
+st.set_page_config(page_title="Dashboard", layout="wide")
 st.title("Dashboard")
 
 # Get all domains

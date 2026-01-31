@@ -8,7 +8,6 @@ WhiteRabbit is a subdomain enumeration and monitoring tool designed for bug boun
 - **Multi-Source OSINT Scanning**: crt.sh, AnubisDB, HackerTarget, URLScan.io
 - **DNS Verification**: Alternating between Cloudflare (1.1.1.1) and Google (8.8.8.8) DNS
 - **HTTP Discovery**: Status codes, page sizes
-- 
 ## Installation
 ```bash
 git clone [<repository-url>](https://github.com/Ne0Prime/whiterabbit.git
@@ -107,14 +106,9 @@ CREATE TABLE subdomains (
 
 ## Future Improvements
 
-1. **Add logging**
-2. **Retry logic**
-3. **Search/filter**
-4. **Email/Discord notifications**
-5. **Screenshot capture** functionality
-6. **Port Scanning**
-7. **Technology detection**
-8. **Subdomain takeover detection**
+1. **Port Scanning**
+2. **Technology detection**
+3. **Subdomain takeover detection**
 
 ## Dependencies
 
