@@ -6,7 +6,7 @@ echo "Starting WhiteRabbit..."
 mkdir data
 
 # Start Streamlit in background
-streamlit run Dashboard.py > streamlit.log 2>&1 &
+streamlit run Dashboard.py --server.address 0.0.0.0 --server.enableCORS false --server.enableXsrfProtection true > streamlit.log 2>&1 &
 STREAMLIT_PID=$!
 echo "Streamlit started (PID: $STREAMLIT_PID)"
 

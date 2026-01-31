@@ -125,5 +125,5 @@ if domains:
         st.info("No recent activity")
 
 else:
-    st.warning("⚠️ No domains configured. Add a domain to get started!")
-    st.info("👉 Go to **Domains** page to add your first domain")
+    st.warning("No domains configured. Add a domain to get started!")
+    st.info("Go to **Domains** page to add your first domain")
