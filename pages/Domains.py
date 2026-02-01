@@ -25,12 +25,6 @@ if "show_add" in st.session_state and st.session_state.show_add:
         # Scan Interval
         interval = st.number_input("Scan Interval (seconds)", min_value=60, value=3600, step=60)
         
-        with st.expander("Domain Sources"):
-            crt_sh = st.checkbox("crt.sh", value=True)
-            anubis = st.checkbox("Anubis DB", value=True)
-            hackertarget = st.checkbox("HackerTarget", value=True)
-            urlscan = st.checkbox("URLScan.io", value=True)
-        
         with st.expander("Check Options"):
             enable_dns = st.checkbox("Enable DNS Check", value=True)
             enable_http = st.checkbox("Enable HTTP Check", value=True)
@@ -39,15 +33,7 @@ if "show_add" in st.session_state and st.session_state.show_add:
         with col1:
             if st.form_submit_button("Add"):
                 # Collect Scanners
-                scanners = []
-                if crt_sh:
-                    scanners.append("crt_sh")
-                if anubis:
-                    scanners.append("anubis")
-                if hackertarget:
-                    scanners.append("hackertarget")
-                if urlscan:
-                    scanners.append("urlscan")
+                scanners = ["subfinder"]
                 
                 # Add domain to database
                 add_domain(name, scanners, interval, enable_dns, enable_http)

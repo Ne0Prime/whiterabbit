@@ -93,8 +93,7 @@ if domains:
                 st.write(f"**Last Scan:** {domain['last_scan'][:10] if domain['last_scan'] else 'Never'}")
             
             with col4:
-                scanners = domain['active_scanners'].split(',') if domain['active_scanners'] else []
-                st.write(f"**Active Scanners:** {len(scanners)}")
+                st.write(f"**Scanner:** subfinder")
                 st.write(f"**DNS Check:** {'✅' if domain.get('enable_dns_check') else '❌'}")
                 st.write(f"**HTTP Check:** {'✅' if domain.get('enable_http_check') else '❌'}")
     

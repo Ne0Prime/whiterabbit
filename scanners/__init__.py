@@ -1,2 +1,2 @@
-from .osint_scanners import *
+from .subfinder_integration import *
 from .checks import *
